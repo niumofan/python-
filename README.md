@@ -1,4 +1,20 @@
 import time
-ticks = time.time()
-print("当前时间戳为：",ticks)
-输出：当前时间戳为: 1459994552.51
+
+
+//函数time.time()用于获取当前时间戳
+  ticks = time.time()
+  print("当前时间戳为：",ticks)
+//输出：当前时间戳为: 1459994552.51
+//时间戳单位最适于做日期运算。但是1970年之前的日期就无法以此表示了。太遥远的日期也不行，UNIX和Windows只支持到2038年。
+
+
+//从返回浮点数的时间辍方式向时间元组转换，只要将浮点数传递给如localtime之类的函数
+  localtime = time.localtime(time.time())
+  print("本地时间为：",localtime)
+//输出：本地时间为 : time.struct_time(tm_year=2016, tm_mon=4, tm_mday=7, tm_hour=10, tm_min=3, tm_sec=27, tm_wday=3, tm_yday=98, tm_isdst=0)
+
+
+//获取格式化的时间
+  localtime = time.asctime(time.localtime(time.time()))
+  print("本地时间为：",localtime)
+//输出：本地时间为 : Thu Apr  7 10:05:21 2016
