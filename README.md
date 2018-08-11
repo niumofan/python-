@@ -11,10 +11,31 @@ import time
 //从返回浮点数的时间辍方式向时间元组转换，只要将浮点数传递给如localtime之类的函数
   localtime = time.localtime(time.time())
   print("本地时间为：",localtime)
+  或
+  localtime = time.localtime()
+  print("本地时间为：",localtime)
 //输出：本地时间为 : time.struct_time(tm_year=2016, tm_mon=4, tm_mday=7, tm_hour=10, tm_min=3, tm_sec=27, tm_wday=3, tm_yday=98, tm_isdst=0)
 
 
 //获取格式化的时间
   localtime = time.asctime(time.localtime(time.time()))
   print("本地时间为：",localtime)
+  或
+  localtime = time.asctime(time.localtime())
+  print("本地时间为：",localtime)
+  或
+  localtime = time.asctime()
+  print("本地时间为：",localtime)
 //输出：本地时间为 : Thu Apr  7 10:05:21 2016
+
+
+//格式化日期
+  print(time.strftime("%Y-%m-%d %H:%M:%S",time.localtime()))
+  输出：2018-08-11 15:04:33
+  
+  print(time.strftime("%a %b %d %H:%M:%S %Y",time.localtime()))
+  输出：Sat Aug 11 15:04:33 2018
+  
+  a = "Sat Mar 28 22:24:24 2016"
+  print(time.mktime(time.strptime(a,"%a %b %d %H:%M:%S %Y")))
+  输出：1459175064.0
