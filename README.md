@@ -30,15 +30,15 @@ import time
 
 
 //格式化日期
-  print(time.strftime("%Y-%m-%d %H:%M:%S",time.localtime()))
-//输出：2018-08-11 15:04:33
+  time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())
+//值：2018-08-11 15:04:33
   
-  print(time.strftime("%a %b %d %H:%M:%S %Y",time.localtime()))
-//输出：Sat Aug 11 15:04:33 2018
+  time.strftime("%a %b %d %H:%M:%S %Y",time.localtime())
+//值：Sat Aug 11 15:04:33 2018
   
   a = "Sat Mar 28 22:24:24 2016"
-  print(time.mktime(time.strptime(a,"%a %b %d %H:%M:%S %Y")))
-//输出：1459175064.0
+  time.mktime(time.strptime(a,"%a %b %d %H:%M:%S %Y"))
+//值：1459175064.0
 //%y 两位数的年份表示（00-99）
   %Y 四位数的年份表示（000-9999）
   %m 月份（01-12）
@@ -61,3 +61,7 @@ import time
   %X 本地相应的时间表示
   %Z 当前时区的名称
   %% %号本身
+
+
+//用于计时
+time.clock()
