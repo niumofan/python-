@@ -1,4 +1,4 @@
-#1
+#1 普通爬取
 import requests
 
 url = ""
@@ -11,7 +11,7 @@ except:
     print("爬取失败")
     
     
-#2
+#2 伪装成浏览器爬取
 import requests
 url = ""
 try:
