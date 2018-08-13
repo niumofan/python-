@@ -77,3 +77,65 @@ try:
     print(r.text[-500:])
 except:
     print("爬取失败")
+
+
+#6 中国大学排名爬取
+以交通大学最好大学排名为例：
+import requests
+from bs4 import BeautifulSoup
+import bs4
+
+def getHTMLText(url):
+    try:
+        r = requests.get(url, timeout=30)
+        r.raise_for_status()
+        r.encoding = r.apparent_encoding
+        return r.text
+    except:
+        return ""
+
+def fillUnivList(ulist, html):
+    soup = BeautlfulSoup(html, "html.parser")
+    for tr in soup.find('tbody').children:
+        if isinstance(tr, bs4.element.Tag):
+            tds = tr('td')
+            ulist.append([tds[0].string, tds[1].string, tds[3].string])
+
+def printUnivList(ulist, num):
+    tplt = "{0:^10}\t{1:{3}^10}\t{2:^10}"
+    print(tplt.format("排名", "学校名称", "总分",chr(12288))) #chr(12288)是中文的空格符，防止中西文输出不美观
+    for i in range(num):
+        u = ulist[i]
+        print(tplt.format(u[0], u[1], u[2], chr(12288)))
+    
+def main():
+    url = "http://www.zuihaodaxue.com/zuihaodaxuepaiming2016.html"
+    uinfo = []
+    html = getHTMLText(url)
+    fillUnivList(uinfo, html)
+    printUnivList(uinfo, 20)
+
+main()
+
+输出:
+    排名    	　　学校名称　　　	   总分    
+    1     	　　　清华大学　　　	   95.9   
+    2     	　　　北京大学　　　	   82.6   
+    3     	　　　浙江大学　　　	    80    
+    4     	　　上海交通大学　　	   78.7   
+    5     	　　　复旦大学　　　	   70.9   
+    6     	　　　南京大学　　　	   66.1   
+    7     	　中国科学技术大学　	   65.5   
+    8     	　哈尔滨工业大学　　	   63.5   
+    9     	　　华中科技大学　　	   62.9   
+    10    	　　　中山大学　　　	   62.1   
+    11    	　　　东南大学　　　	   61.4   
+    12    	　　　天津大学　　　	   60.8   
+    13    	　　　同济大学　　　	   59.8   
+    14    	　北京航空航天大学　	   59.6   
+    15    	　　　四川大学　　　	   59.4   
+    16    	　　　武汉大学　　　	   59.1   
+    17    	　　西安交通大学　　	   58.9   
+    18    	　　　南开大学　　　	   58.3   
+    19    	　　大连理工大学　　	   56.9   
+    20    	　　　山东大学　　　	   56.3   
