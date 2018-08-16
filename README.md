@@ -93,7 +93,7 @@ line2()
 
 
 <注意>
-#内部函数直接赋值不能改变外部函数变量，除非用关键字nonlocal声明，且声明同时不能赋值
+①内部函数直接赋值不能改变外部函数变量，除非用关键字nonlocal声明，且声明同时不能赋值
 def test():
     num = 10
     def test2():
@@ -121,7 +121,7 @@ test()
 
 
 
-#注意内部函数起作用的时间
+②注意内部函数起作用的时间
 <1>
 def test():
     funs = []
@@ -155,6 +155,33 @@ new_fun[1]()
 new_fun[2]()
 new_fun[3]()
 输出：0 1 2 3
+
+
+
+#5 装饰器————闭包的应用     减少代码冗余度，提示信息修改方便且无需修改主过程
+def checkLogin(func):
+  def inner():
+    print("登陆验证...")
+    func()
+  return inner
+
+@checkLogin       //函数体前加@checkLogin相当于函数体后加fss = checkLogin(fsss)
+def fss():
+  print("发说说")
+
+@checkLogin
+def ftp():
+  print("发图片")
+
+btnIndex = 1
+if btnIndex == 1:
+  fss()
+else:
+  ftp()
+输出：
+登陆验证...
+发说说
+
 
 #附
 numstr = "10010"
