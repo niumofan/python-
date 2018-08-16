@@ -159,6 +159,7 @@ new_fun[3]()
 
 
 #5 装饰器————闭包的应用     减少代码冗余度，提示信息修改方便且无需修改主过程
+<1>原函数无参数，无返回值
 def checkLogin(func):
   def inner():
     print("登陆验证...")
@@ -181,6 +182,84 @@ else:
 输出：
 登陆验证...
 发说说
+
+<2>原函数有参数，无返回值
+def zsq(func):
+  def inner(*args, **kwargs):
+    print('-' * 30)
+    func(*args, **kwargs)
+
+@zsq
+def pnum(num1,num2,num3):
+  print(num1, num2, num3)
+  
+@zsq
+def pnum2(num):
+  print(num)
+  
+pnum(123, 56, 89)
+pnum2(453)
+输出：
+------------------------------
+123 56 89
+------------------------------
+453
+
+<3>原函数有参数，有返回值
+def zsq(func):
+  def inner(*args,**kwargs):
+    print('-' * 30)
+    res = func(*args, **kwargs)
+    return res
+  return inner
+
+@zsq
+def pnum(num1, num2, num3):
+  print(num1, num2, num3)
+  return num1+num2+num3
+  
+@zsq
+def pnum2(num1)
+  print(num1)
+
+res1 = pnum(123, 56, 89)
+res2 = pnum2(453)
+print(res1, res2)
+输出：
+------------------------------
+123 56 89
+------------------------------
+453
+268 None
+
+<4>带有其他参数的装饰器
+def getzsq(char):
+  def zsq(func):
+    def inner(*args,**kwargs):
+      print(char * 30)
+      func(*args, **kwargs)
+    return inner
+  return zsq
+
+@getzsq('-')
+def pnum(num1, num2, num3):
+    print(num1, num2, num3)
+    return num1+num2+num3
+
+@getzsq('*')
+def pnum2(num):
+    print(num)
+
+res1 = pnum(123, 56, 89)
+res2 = pnum2(453)
+print(res1, res2)
+输出：
+------------------------------
+123 56 89
+******************************
+453
+268 None
+
 
 
 #附
