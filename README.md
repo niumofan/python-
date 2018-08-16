@@ -64,7 +64,7 @@ def get_func(c):
   
 
 #4 闭包  外层函数 根据不同的参数 生成作用不同的函数
-def test():
+def test():                                                                     
   a = 10
   def test2():
     print(a)
@@ -74,7 +74,87 @@ fun = test()
 fun()
 输出：10
 
+<应用>
+def print_line(content, length):
+  def line():
+    print('-'*(length//2) + content + '-'*(length//2))
+  return line
 
+line1 = print_line("我是分割线", 20)
+line2 = print_line("啦啦啦",50)
+line1()
+line1()
+line2()
+
+输出：
+----------我是分割线----------
+----------我是分割线----------
+-------------------------啦啦啦-------------------------
+
+
+<注意>
+#内部函数直接赋值不能改变外部函数变量，除非用关键字nonlocal声明，且声明同时不能赋值
+def test():
+    num = 10
+    def test2():
+        num = 20
+    print(num)
+    test2()
+    print(num)
+
+test()
+输出：10
+      10
+
+def test():
+    num = 10
+    def test2():
+        nonlocal num
+        num = 20
+    print(num)
+    test2()
+    print(num)
+
+test()
+输出：10
+      20
+
+
+
+#注意内部函数起作用的时间
+<1>
+def test():
+    funs = []
+    for i in range(4):
+        def test2():
+            print(i, end=' ')
+        funs.append(test2)
+    return funs
+
+new_fun = test()
+new_fun[0]()
+new_fun[1]()
+new_fun[2]()
+new_fun[3]()
+输出：3 3 3 3
+
+<2>
+def test():
+    funs = []
+    for i in range(4):
+        def test2(num):
+            def inner():
+                print(num，end=' ')
+            return inner
+        funs.append(test2(i))
+    return funs
+
+new_fun = test()
+new_fun[0]()
+new_fun[1]()
+new_fun[2]()
+new_fun[3]()
+输出：0 1 2 3
 
 #附
 numstr = "10010"
