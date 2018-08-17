@@ -261,7 +261,21 @@ print(res1, res2)
 268 None
 
 
+#6 生成器
+def test():
+  yield 1
+  print('a')
+  yield 2 
+  print('b')
+  yield 3
+  print('c')
+  
+g = test()
+g.send()  向上一个yield传一个值
+g.close() 关闭生成器
 
+每个生成器只能遍历一次，否则要再声明g = test()
+  
 #附
 numstr = "10010"
 result = int(numstr, base=2)  //以二进制转换
