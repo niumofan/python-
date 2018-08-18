@@ -29,6 +29,8 @@ os.mkdir(dir,0oxxx) //创建一个文件夹，不能同时创建多个。0oxxx�
 os.getcwd() //获得当前目录
 os.chdir(dir) //改变工作目录
 os.listdir(dir) //获取dir中文件内容组成的列表。当dir为
+os.path.isdir(dir)  //判断是否是目录
+os.path.isfile(file)  //判断是否是文件
 
 
 
@@ -59,15 +61,60 @@ to_file.close()
 import os
 import shutil
 
-name_list = os.listdir("E:/Pycharm/程序")
+dirpath = "E:/Pycharm/程序"
+
+if not os.path.exists(dirpath):
+  exit()
+
+name_list = os.listdir(dir)
 
 for name in name_list:
   index = name.rfind('.')
-  if index != -1:
-    dir = name[index+1:]
-    path = dir+'/'+name
-    if not os.path.exists(dir):
-      os.mkdir(dir)
-    shutil.move(name, path)
+  if index == -1:
+    continue
+  dir = name[index+1:]
+  path = dir+'/'+name
+  if not os.path.exists(dir):
+    os.mkdir(dir)
+  shutil.move(name, path)
+附：容错处理一般反写，防止后面大片代码缩进
+
+
+
+#5 列表清单，打印文件夹中的 文件 以及 子文件夹中的文件
+<1>打印到屏幕上
+def list_files(dir, count=0):
+  filelist = os.listdir(dir)
+  
+  for filename in filelist:
+    print('\t'*count)
+    path = dir + '/' + filename
+    if os.path.isdir(path):
+      print(path)
+      list_files(path, count+1)
+    else:
+      print(filename)
+   
+   dir_path = input("请输入路径：")
+   list_files(dir_path)
+
+<2>写入到文本文件中
+import  os
+
+def listFiles(dir, file, count=0):
+    file_list = os.listdir(dir)
+    for filename in file_list:
+        file.write('\t'*count)
+        path = dir + '/' + filename
+        if os.path.isdir(path):
+            file.write(path+'\n')
+            listFiles(path, file, count+1)
+        else:
+            file.write(filename+'\n')
+
+dir_path = input("请输入路径:")
+file = open("try.txt", "a", encoding='gb2312')
+listFiles(dir_path, file)
+
 #3 注意
 大文件读取，read()占内存，但效率高；for in省内存，但效率低；readline()折中
