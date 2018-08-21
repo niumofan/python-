@@ -62,6 +62,42 @@ class Person(object):
     
  p = Person()
  print(p.age)
+ 
+ 
+ 
+#property在新式类中的应用————让私有属性如同正常属性一样调用
+<1>
+class Person(object):  //在python3中创建类时默认为object类，即新式类，括号可以省略；在python2中默认为经典类，加上括号才为新式类
+   def __init__(self):
+      self.__age = 18
+   
+   def get_age(self):
+      return self.__age
+   def set_age(self, value):
+      self.__age = value
+      
+   age = property(get_age, set_age)
+
+p = Person()
+p.age = 10
+print(p.age)
+
+<2>
+class Person(object):
+   def __init__(self):
+      delf.__age = 18
+   
+   @property
+   def age(self):
+      return self.__age
+   
+   @age.setter
+   def age(self, value):
+      self.__age = value
+   
+p = Person()
+p.age = 10
+print(p.age)
 #注意
 1、类中的属性不能通过 类名.__dict__[] 或 类名.__dict__ = {} 的方式添加或修改。
    对象中的属性可以通过 对象名.__dict__[] 或 对象名.__dict__ = {} 的方式添加或修改。但是，第二种方法会删除对象原先中的所有直系的属性。
