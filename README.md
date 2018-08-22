@@ -116,6 +116,46 @@ print(p.age)
 
 
 
+#内置函数
+<1> def __init__(self, 参数1，参数2，...) 用于初始化
+
+<2> def __str__   return "字符串" 用于更改print(实例/对象)的输出信息
+
+<3> def __repr__ return "字符串"  用于更改repr(对象/实例)的输出信息，当__str__没有重新定义时，也会改变print(对象/实例)的输出信息
+
+<4> __call__ 是对象具备当作函数调用的能力
+class Person:
+   def __call__(self, *args, **kwargs):
+      print("xxx", args, kwargs)
+p = Person()
+p(123,456, name='sz')
+输出：xxx (123, 456) {'name':'sz}
+
+实例：一个参数（笔的类型）变化较少，另一个参数（笔的颜色）变化较多
+class PenFactory:
+   def __init__(self, p_type):
+      self.p_type = p_type
+   def __call__(self, p_color):
+      print("创建了类型为 %s 的画笔，颜色为 %s" % (self.p_type, p_color))
+      
+gangbiF = PenFactory("钢笔")
+gangbiF("黄色")
+gangbiF("红色")
+gangbiF("绿色")
+qianbiF = PenFactory("铅笔")
+qianbiF("蓝色")
+qianbiF("紫色")
+qianbiF("灰色")
+输出：
+创建了 钢笔 类型的画笔，颜色为 黄色
+创建了 钢笔 类型的画笔，颜色为 红色
+创建了 钢笔 类型的画笔，颜色为 绿色
+创建了 铅笔 类型的画笔，颜色为 蓝色
+创建了 铅笔 类型的画笔，颜色为 紫色
+创建了 铅笔 类型的画笔，颜色为 灰色
+
+
+
 #注意
 1、类中的属性不能通过 类名.__dict__[] 或 类名.__dict__ = {} 的方式添加或修改。
    对象中的属性可以通过 对象名.__dict__[] 或 对象名.__dict__ = {} 的方式添加或修改。但是，第二种方法会删除对象原先中的所有直系的属性。
