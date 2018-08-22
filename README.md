@@ -154,7 +154,33 @@ qianbiF("灰色")
 创建了 铅笔 类型的画笔，颜色为 紫色
 创建了 铅笔 类型的画笔，颜色为 灰色
 
+<5>索引操作：__set/get/delitem__
+class Person:
+   def __init__(self):
+      self.cache = {}
+   def __setitem__(self, key, value):
+      print("setitem", key, value)
+      self.cache[key] = value
+   def __getitem__(self,item)
+      print("getitem", item)
+      return self.getitem[item]
+   def __delitem__(self, key)
+      print("delitem", key)
+      del self.cache[key]
 
+p = Person()
+p['name'] = 'nb'
+name = p['name']
+print(name)
+del p['name']
+print(p.cache)
+
+输出：
+setitem name nb
+getitem name
+nb
+delitem name
+{}
 
 #注意
 1、类中的属性不能通过 类名.__dict__[] 或 类名.__dict__ = {} 的方式添加或修改。
