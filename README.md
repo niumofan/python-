@@ -63,6 +63,21 @@ class Person(object):
  p = Person()
  print(p.age)
  
+<3>class Person:
+  #当我们通过“ 实例.属性 = 值 ” 给一个实例增加一个属性，或者，修改这个属性值的时候，都会调用这个方法
+  #在这个方法内部，才会真正的把这个属性以及对应的数据添加到字典__dict__中
+  def __setattr__(self, key, value):
+     if key == 'age' and key in self.__dict__.keys():
+        print("这个属性是只读属性，不能设置数据")
+     else:
+        self.__dict__[key] = value
+        #注意：上面不能写成 self.key = value，否则会一直调用这个方法造成死循环
+ p = Person()
+ p.age = 18
+ print(p.age)  输出：18
+ p.age = 999   //设置失败
+ print(p.age)  输出：18
+ 
  
  
 #property在新式类中的应用————让私有属性如同正常属性一样调用
@@ -98,6 +113,9 @@ class Person(object):
 p = Person()
 p.age = 10
 print(p.age)
+
+
+
 #注意
 1、类中的属性不能通过 类名.__dict__[] 或 类名.__dict__ = {} 的方式添加或修改。
    对象中的属性可以通过 对象名.__dict__[] 或 对象名.__dict__ = {} 的方式添加或修改。但是，第二种方法会删除对象原先中的所有直系的属性。
@@ -114,3 +132,5 @@ print(p.age)
 6、命名方式：当变量名与关键字冲突时，习惯上可采用关键字_,如：class_, int_
             __xx__是系统内置的一些命名，自己命名时应避免
 
+
+7、私有化方法和私有化属性命名方式相同，伪装的原理相同
