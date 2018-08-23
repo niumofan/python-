@@ -243,6 +243,55 @@ p = Person()
 if p  //条件成立
 
 综上，__bool__(self)函数的返回值会替代if中的实例
+
+<9>遍历
+Ⅰ
+class Person:
+   result = 0
+   def __getitem__(self)
+      if self.result >= 6:
+         exit()
+      self.result += 1
+      return self.result
+p = Person()
+for i in p:
+   print(i，end=' ')
+输出：1 2 3 4 5
+
+Ⅱ
+class Person:
+   result = 0
+   def __iter__(self):
+      return self
+   def __next__(self):
+      f self.result >= 6:
+         exit()
+      self.result += 1
+      return self.result
+
+Ⅲ
+class Person
+   def __iter__(self):
+      return iter([1,2,3,4,5])
+
+Ⅳ
+class Person:
+   result = 0
+   def __next__(self):
+      if self.result >= 6:
+         exit()
+      self.result += 1
+      return self.result
+p = Person()
+print(next(p), end=' ')
+print(next(p), end=' ')
+print(next(p), end=' ')
+print(next(p), end=' ')
+print(next(p), end=' ')
+输出：1 2 3 4 5
+
+
+
 #注意
 1、类中的属性不能通过 类名.__dict__[] 或 类名.__dict__ = {} 的方式添加或修改。
    对象中的属性可以通过 对象名.__dict__[] 或 对象名.__dict__ = {} 的方式添加或修改。但是，第二种方法会删除对象原先中的所有直系的属性。
