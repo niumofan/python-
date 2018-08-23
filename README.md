@@ -59,9 +59,8 @@ class Person(object):
   @property //装饰器，可以 以使用属性的方法 来调用 这个方法
   def age(self):
     return self.__age
-    
- p = Person()
- print(p.age)
+p = Person()
+print(p.age)
  
 <3>class Person:
   #当我们通过“ 实例.属性 = 值 ” 给一个实例增加一个属性，或者，修改这个属性值的时候，都会调用这个方法
@@ -85,14 +84,11 @@ class Person(object):
 class Person(object):  //在python3中创建类时默认为object类，即新式类，括号可以省略；在python2中默认为经典类，加上括号才为新式类
    def __init__(self):
       self.__age = 18
-   
    def get_age(self):
       return self.__age
    def set_age(self, value):
       self.__age = value
-      
    age = property(get_age, set_age)
-
 p = Person()
 p.age = 10
 print(p.age)
@@ -101,15 +97,12 @@ print(p.age)
 class Person(object):
    def __init__(self):
       delf.__age = 18
-   
    @property
    def age(self):
       return self.__age
-   
    @age.setter
    def age(self, value):
       self.__age = value
-   
 p = Person()
 p.age = 10
 print(p.age)
@@ -137,7 +130,6 @@ class PenFactory:
       self.p_type = p_type
    def __call__(self, p_color):
       print("创建了类型为 %s 的画笔，颜色为 %s" % (self.p_type, p_color))
-      
 gangbiF = PenFactory("钢笔")
 gangbiF("黄色")
 gangbiF("红色")
@@ -167,14 +159,12 @@ class Person:
    def __delitem__(self, key)
       print("delitem", key)
       del self.cache[key]
-
 p = Person()
 p['name'] = 'nb'
 name = p['name']
 print(name)
 del p['name']
 print(p.cache)
-
 输出：
 setitem name nb
 getitem name
@@ -182,6 +172,77 @@ nb
 delitem name
 {}
 
+<6>切片操作： __set/get/delitem__  //只能修改，不能新增
+class Person:
+   def __init__(self):
+      self.items = [1, 2, 3, 4, 5, 6]
+   def __setitem(self, key, value):
+      self.items[key] = value
+   def __getitem(self, item):
+      return self.items[item]
+   def __delitem(self, key)
+      del self.items[key]
+p = Person()
+p[0:4:2] = ['a', 'b']
+print(p[0:6])
+del p[4:6]
+print(p)
+print(p.items)
+输出：
+['a', 2, 'b', 4, 5, 6]
+['a', 2, 'b', 4]
+
+<7>比较操作
+Ⅰ
+class Person:
+   def __init__(self, age):
+      self.age = age
+   def __eq__(self, other):
+      return self.age == other.age
+   def __ne__(self, other):
+      return self.age != other.age
+   def __gt__(self, other):
+      return self.age > other.age
+   def __ge__(self, other):
+      return self.age >= other.age
+   def __lt__(self, other):
+      return self.age < other.age
+   def __le__(self, other):
+      return self.age <= other.age
+p1 = Person(18)
+p2 = Person(17)
+print(p1>p2)
+输出：True
+
+Ⅱ
+import functools
+@functools.total_ordering
+class Person:
+   def __init(self, age):
+      self.age = age
+   def __eq__(self, other):
+      self.age = other.age
+   def __gt__(self, other):
+      self.age > other.age
+解释：这个装饰器可以根据已写的比较规则来生成其他比较规则。"==" 和 "!="，可以相互生成；">"、"<"、">="、"<="可以相互生成。因此，要生成全部的6个比较规       则，至少要编写两个
+
+
+
+<8>条件语句中的应用 __bool__(self)
+class Person:
+   def __bool__(self):
+      return True
+p = Person()
+if p  //条件成立
+
+class Person:
+   age = 20
+   def __bool__(self)
+      return age > 18
+p = Person()
+if p  //条件成立
+
+综上，__bool__(self)函数的返回值会替代if中的实例
 #注意
 1、类中的属性不能通过 类名.__dict__[] 或 类名.__dict__ = {} 的方式添加或修改。
    对象中的属性可以通过 对象名.__dict__[] 或 对象名.__dict__ = {} 的方式添加或修改。但是，第二种方法会删除对象原先中的所有直系的属性。
