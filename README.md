@@ -292,6 +292,24 @@ print(next(p), end=' ')
 
 
 
+#描述器
+<1>用property创建，详见“property在新式类中的应用————让私有属性如同正常属性一样调用”
+
+<2>
+class miaoshu:
+    def __set__(self, instance, value):
+        print("set")
+    def __get__(self, instance, owner):
+        print("get")
+    def __delete__(self, instance):
+        print("delete")
+class Person:
+    age = miaoshu()
+p = Person()
+print(p.age)
+
+
+
 #注意
 1、类中的属性不能通过 类名.__dict__[] 或 类名.__dict__ = {} 的方式添加或修改。
    对象中的属性可以通过 对象名.__dict__[] 或 对象名.__dict__ = {} 的方式添加或修改。但是，第二种方法会删除对象原先中的所有直系的属性。
