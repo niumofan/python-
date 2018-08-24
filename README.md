@@ -116,7 +116,7 @@ print(p.age)
 
 <3> def __repr__ return "字符串"  用于更改repr(对象/实例)的输出信息，当__str__没有重新定义时，也会改变print(对象/实例)的输出信息
 
-<4> __call__ 是对象具备当作函数调用的能力
+<4> __call__ 使对象具备当作函数调用的能力
 class Person:
    def __call__(self, *args, **kwargs):
       print("xxx", args, kwargs)
@@ -293,8 +293,8 @@ print(next(p), end=' ')
 
 
 #描述器
+创建：
 <1>用property创建，详见“property在新式类中的应用————让私有属性如同正常属性一样调用”
-
 <2>
 class miaoshu:
     def __set__(self, instance, value):
@@ -307,6 +307,40 @@ class Person:
     age = miaoshu()
 p = Person()
 print(p.age)
+
+注意：
+假如采用上述方法，当创建实例时，实例的地址不同，但指向的age相同，也就是说，当一个实例中的age中改动时，另一个实例中的age也会改动。欲消除此影响，可将代码做如下改动：
+class miaoshu:
+   def __get__(self, instance, owner):
+      return instance.v
+   def __set__(self, instance, value):
+      instance.v = value
+   def __delete__(self, instance):
+      del instance.v
+class Person:
+   age = miaoshu()
+p1 = Person()
+p2 = Person()
+p1.age = 10
+p2.age = 20
+print(p1.age, p2.age)
+输出：10 20
+
+
+#装饰器
+class check:
+   def __init__(self, func)
+      self.f = func
+   def __call__(self, *args, **kwargs):
+      print("登陆验证")
+      self.f()
+@check
+def fss():
+   print("发说说")
+fss()
+输出：
+登陆验证
+发说说
 
 
 
