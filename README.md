@@ -40,11 +40,41 @@ print(sys.getrefcount(p1))
 3、一个对象离开它的作用域
 4、对象所在容器被销毁，或者从容器中移除该对象
 
+<2>解决循环引用的措施
+①用弱引用
+import weakref
+class Person:
+   pass
+class Dog:
+   pass
+p = Person()
+d = Dog()
+p.pet = d
+d.master = weakref.ref(p)
+del p
+del d
+②手动破坏
+import weakref
+class Person:
+   pass
+class Dog:
+   pass
+p = Person()
+d = Dog()
+p.pet = d
+d.master = p
+p.pet = None
+del p
+del d
+
+
+
 import gc
 启动 gc.enable()
 停止 gc.disable()
 判断 gc.isenabled()
 查看参数  gc.get_threshold()
          例：输出（700，10，10）
-         700代表阈值（对象引用数-消亡数），第一个10代表0代检测10次后触发0代和1代检测，第二个10代表1代检测10次后触发0代1代2代检测
+         700代表阈值（新增的对象个数-释放的对象个数），第一个10代表0代检测10次后触发0代和1代检测，第二个10代表1代检测10次后触发0代1代2代检测
 设置参数  gc.set_threshold()
+手动触发  gc.collect() 可选参数generation=0/1/2,设置收集前n代垃圾，默认=None，全部回收
