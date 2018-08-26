@@ -364,27 +364,38 @@ Person.log()
 
 
 
-#内存管理
-<1>引用计数器
-import sys
-class Person:
+#继承
+<1>2.2版本之前,只有经典类，按照栈的特性，从当前结点开始寻找父类结点，直到遍历完
+<2>2.2开始，按照队列的特性，从当前结点开始寻找父类结点，直到遍历完
+<3>2.3-2.7,新式类和经典类并存，按照c3算法，例子如下：
+原理：1、L(object) = [object]
+      2、对于merge里的元素，如果每个中括号里面的第一个元素相同，可以提取出来。如果第一个元素不同，但也没有在中括号里的其他位置，也可以提取出来。考察          时先考察第一个中括号里的第一个元素，再考察第二个中括号里的第一个元素，以此类推。
+class D:
    pass
-p1 = Person()
-p2 = p1
-print(sys.getrefcount(p1))
-输出：3
-解释：p2 = p1传递的是地址；在调用函数时p1又被引用一次，造成输出结果比实际引用次数大1
-
-引用计数器增加：
-1、p1 = Person
-2、p1 = p2
-3、对象作为一个参数传入到函数中，此时+2
-4、对象作为一个元素，存储在容器中，如：l = [p1]
-引用计数器减少：
-1、引用对象被显式销毁，del p1
-2、引用对象被赋予新的对象 p1 = 123
-3、一个对象离开它的作用域
-4、对象所在容器被销毁，或者从容器中移除该对象
+class B(D):
+   pass
+class C(B):
+   pass
+class A(B,C):
+   pass
+L(D) = [D] + merge(L(object), [object])
+     = [D] + merge([object], [object])
+     = [D, object] + merge([], [])
+     = [D, object]
+L(B(D)) = [B] + merge(L(D), [D])
+        = [B] + merge([D, object], [D])
+        = [B, D] + merge([object], [])
+        = [B, D, object] + merge([], [])
+        = [B, D, object]
+L(C(B)) = [C] + merge(L(B), [B])
+        = [C] + merge([B, D, object], [B])
+        = [C, B] + merge([D, object], [])
+        = [C, B, D] + merge([object], [])
+        = [C, B, D, object] + merge([], [])
+        = [C, B, D, object]
+L(A(B, C)) = [A] + merge(L(B), L(C), [B, C])
+           = [A] + merge([B, D, object], [C, B, D, object], [B, C])
+           无法化简，报错
 
 #注意
 1、类中的属性不能通过 类名.__dict__[] 或 类名.__dict__ = {} 的方式添加或修改。
