@@ -405,6 +405,14 @@ L(A(B, C)) = [A] + merge(L(B), L(C), [B, C])
 <5>在原有的方法上新增内容：
 super(type, type/实例).方法名().type指要寻找哪一个类的下一个节点，type/实例指按谁的mro链寻找。当type为新定义的类的本身，且type/实例为方法的第一个参数时，可简写为super().方法名(),仅适用于3.x
 
+#抽象类
+<1>创建
+import abc
+class Animal(metaclass=abc.ABCMeta):
+   @abc.abstractmethod
+    def jiao(self):
+        pass
+
 
 #注意
 1、类中的属性不能通过 类名.__dict__[] 或 类名.__dict__ = {} 的方式添加或修改。
